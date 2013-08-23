@@ -151,19 +151,19 @@ public class TextBuddy {
 				switch (hm.get(cmd[0].toLowerCase())) {
 
 					case DISPLAY_ID : // Display case
-						display();
+						printList();
 						break;
 
 					case ADD_ID : // Add case
-						add(cmd[1]);
+						addElement(cmd[1]);
 						break;
 
 					case DELETE_ID : // Delete case
-						delete(Integer.parseInt(cmd[1]));
+						deleteElement(Integer.parseInt(cmd[1]));
 						break;
 
 					case CLEAR_ID : // Clear case
-						clear();
+						clearList();
 						break;
 
 					case EXIT_ID : // Exit case
@@ -181,9 +181,11 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Writes list to specified filename.
+	 * Writes the list to specified filename.
+	 * 
+	 * @return	True if write was successful, else false. 
 	 */
-	private boolean write() {
+	private boolean writeToFile() {
 		try {
 			FileWriter file = new FileWriter(fileName);
 			String output = "";
@@ -208,7 +210,7 @@ public class TextBuddy {
 	/**
 	 * Prints out the list.
 	 */
-	private void display() {
+	private void printList() {
 		if (list.isEmpty()) {
 			System.out.println(fileName + " is empty");
 		} else {
@@ -224,11 +226,10 @@ public class TextBuddy {
 	 * 
 	 * @param str String element to be added to the list.
 	 */
-	private void add(String str) {
-		// Add element to list
+	private void addElement(String str) {
 		list.add(str);
 
-		if (write()) {
+		if (writeToFile()) {
 			System.out.println("added to " + fileName + ": \"" + str + "\"");
 		}
 	}
@@ -239,13 +240,13 @@ public class TextBuddy {
 	 * 
 	 * @param id ID of element to be deleted.
 	 */
-	private void delete(int id) {
+	private void deleteElement(int id) {
 		if (id > 0 && list.size() >= id) { // Check if ID is valid
 			// 0 based indexing list
 			String str = (String) list.get(id - 1);
 			list.remove(id - 1);
 
-			if (write()) {
+			if (writeToFile()) {
 				System.out.println("deleted from " + fileName + ": \"" + str
 						+ "\"");
 			}
@@ -260,11 +261,10 @@ public class TextBuddy {
 	/**
 	 * Clears the list
 	 */
-	private void clear() {
-		// Clear the list
+	private void clearList() {
 		list.clear();
 
-		if (write()) {
+		if (writeToFile()) {
 			System.out.println("all content deleted from " + fileName);
 		}
 	}
