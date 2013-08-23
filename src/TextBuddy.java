@@ -183,7 +183,7 @@ public class TextBuddy {
 	/**
 	 * Writes list to specified filename.
 	 */
-	private void write() {
+	private boolean write() {
 		try {
 			FileWriter file = new FileWriter(fileName);
 			String output = "";
@@ -199,7 +199,10 @@ public class TextBuddy {
 		} catch (IOException e) {
 			// e.printStackTrace();
 			System.out.println("error encountered when saving " + fileName);
+			return false;
 		}
+
+		return true;
 	}
 
 	/**
@@ -225,10 +228,9 @@ public class TextBuddy {
 		// Add element to list
 		list.add(str);
 
-		// Changes to the list, write to file
-		write();
-
-		System.out.println("added to " + fileName + ": \"" + str + "\"");
+		if (write()) {
+			System.out.println("added to " + fileName + ": \"" + str + "\"");
+		}
 	}
 
 	/**
@@ -243,11 +245,10 @@ public class TextBuddy {
 			String str = (String) list.get(id - 1);
 			list.remove(id - 1);
 
-			// Changes to the list, write to file
-			write();
-
-			System.out
-					.println("deleted from " + fileName + ": \"" + str + "\"");
+			if (write()) {
+				System.out.println("deleted from " + fileName + ": \"" + str
+						+ "\"");
+			}
 
 		} else if (list.isEmpty()) {
 			System.out.println(fileName + " is empty");
@@ -263,10 +264,9 @@ public class TextBuddy {
 		// Clear the list
 		list.clear();
 
-		// Changes to the list, write to file
-		write();
-
-		System.out.println("all content deleted from " + fileName);
+		if (write()) {
+			System.out.println("all content deleted from " + fileName);
+		}
 	}
 
 }
