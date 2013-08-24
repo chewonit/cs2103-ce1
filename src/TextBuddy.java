@@ -46,19 +46,13 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class TextBuddy {
 
-	private final int DISPLAY_ID = 0;
-	private final int ADD_ID = 1;
-	private final int DELETE_ID = 2;
-	private final int CLEAR_ID = 3;
-	private final int EXIT_ID = 4;
-	private final String[] PROGRAM_COMMANDS = { "display", "add", "delete",
-			"clear", "exit" };
-	private final int[] PROGRAM_COMMAND_IDS = { DISPLAY_ID, ADD_ID, DELETE_ID,
-			CLEAR_ID, EXIT_ID };
+	enum COMMANDS {
+		DISPLAY, ADD, DELETE, CLEAR, EXIT
+	};
+
 	private static final String INVALID_COMMAND = "invalid command!";
 	private static final String INVALID_ELEMENT_ID = "invalid element ID";
 
@@ -68,7 +62,6 @@ public class TextBuddy {
 	private BufferedReader in = new BufferedReader(new InputStreamReader(
 			System.in));
 
-	private HashMap<String, Integer> programControls = new HashMap<String, Integer>();
 	private ArrayList<String> list = new ArrayList<String>();
 
 	public static void main(String[] args) {
@@ -93,8 +86,6 @@ public class TextBuddy {
 		}
 
 		checkFileExistance();
-
-		initProgramControls();
 
 		System.out.println("Welcome to TextBuddy. " + fileName
 				+ " is ready for use");
@@ -130,15 +121,6 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Initializes the program controls to a unique ID using a hashmap.
-	 */
-	private void initProgramControls() {
-		for (int i = 0; i < PROGRAM_COMMANDS.length; i++) {
-			programControls.put(PROGRAM_COMMANDS[i], PROGRAM_COMMAND_IDS[i]);
-		}
-	}
-
-	/**
 	 * Main program function. Program will run in a loop until "exit" command
 	 * received.
 	 */
@@ -154,26 +136,25 @@ public class TextBuddy {
 				// Split the command and parameters (if any) entered by the user
 				String[] cmd = in.readLine().split(" ", 2);
 
-				// Identify the program command
-				switch (programControls.get(cmd[0].toLowerCase())) {
+				switch (COMMANDS.valueOf(cmd[0].toUpperCase())) {
 
-					case DISPLAY_ID :
+					case DISPLAY :
 						printList();
 						break;
 
-					case ADD_ID :
+					case ADD :
 						addElement(cmd[1]);
 						break;
 
-					case DELETE_ID :
+					case DELETE :
 						deleteElement(Integer.parseInt(cmd[1]));
 						break;
 
-					case CLEAR_ID :
+					case CLEAR :
 						clearList();
 						break;
 
-					case EXIT_ID :
+					case EXIT :
 						exitFlag = true;
 						break;
 
