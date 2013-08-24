@@ -1,4 +1,4 @@
-/*
+/**
  * CE1: TextBuddy
  * A0097797Y
  * Darry Chew
@@ -29,8 +29,10 @@
  * 		i.e. DELETE, delete, DeLeTe  
  * 
  * 6. Writing of data
- * 	--	Program will only write to file when the commands add, delete or clear are successfully executed.
+ * 	--	Program will only write to file when the commands add, 
+ * 		delete or clear are successfully executed.
  * 
+ * @author Darry Chew
  */
 
 import java.io.BufferedReader;
@@ -46,13 +48,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- * Manage a list of items. Accepted user commands are display, add, delete,
- * clear, exit.
- * 
- * @author Darry Chew
- * 
- */
 public class TextBuddy {
 
 	private final int DISPLAY_ID = 0;
