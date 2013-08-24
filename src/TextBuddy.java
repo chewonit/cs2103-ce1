@@ -40,11 +40,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.ArrayList;
-
-import java.text.SimpleDateFormat;
 
 /**
  * Manage a list of items. Accepted user commands are display, add, delete,
@@ -60,6 +60,12 @@ public class TextBuddy {
 	private final int DELETE_ID = 2;
 	private final int CLEAR_ID = 3;
 	private final int EXIT_ID = 4;
+	private final String[] PROGRAM_COMMANDS = { "display", "add", "delete",
+			"clear", "exit" };
+	private final int[] PROGRAM_COMMAND_IDS = { DISPLAY_ID, ADD_ID, DELETE_ID,
+			CLEAR_ID, EXIT_ID };
+	private static final String INVALID_COMMAND = "invalid command!";
+	private static final String INVALID_ELEMENT_ID = "invalid element ID";
 
 	/** filename of the text file **/
 	private String fileName;
@@ -67,44 +73,51 @@ public class TextBuddy {
 	private BufferedReader in = new BufferedReader(new InputStreamReader(
 			System.in));
 
-	private HashMap<String, Integer> hm = new HashMap<String, Integer>();
+	private HashMap<String, Integer> programControls = new HashMap<String, Integer>();
 	private ArrayList<String> list = new ArrayList<String>();
 
 	public static void main(String[] args) {
 
-		TextBuddy tb;
+		TextBuddy textBuddy = new TextBuddy(args);
+		textBuddy.exe();
 
-		// check for input filename parameter
-		if (args.length > 0) {
-			tb = new TextBuddy(args[0]);
-		} else {
-			tb = new TextBuddy();
-		}
-
-		tb.exe();
-	}
-
-	/**
-	 * Constructor with no filename input. Set filename to current date and
-	 * time.
-	 */
-	public TextBuddy() {
-
-		// No filename parameter input. Set filename to current date and time
-		this(new SimpleDateFormat("dd-MMM-HH-mm").format(new Date()) + ".txt");
 	}
 
 	/**
 	 * Constructor with filename.
 	 * 
-	 * @param args Name of the text file to load/save list.
+	 * @param arg String array of the program input parameters.
 	 */
-	public TextBuddy(String arg) {
+	public TextBuddy(String[] arg) {
 
-		// Set filename to user input parameter
-		fileName = arg;
+		// check for input filename parameter
+		if (arg.length > 0) {
+			fileName = arg[0];
+		} else {
+			fileName = getDateTime();
+		}
 
-		// Check if file exists, read in the contents if it exist
+		checkFileExistance();
+
+		initProgramControls();
+
+		System.out.println("Welcome to TextBuddy. " + fileName
+				+ " is ready for use");
+	}
+
+	/**
+	 * Returns the current date and time
+	 */
+	public String getDateTime() {
+
+		// No filename parameter input. Set filename to current date and time
+		return (new SimpleDateFormat("dd-MMM-HH-mm").format(new Date()) + ".txt");
+	}
+
+	/**
+	 * Reads in the contents of the file if it exists.
+	 */
+	private void checkFileExistance() {
 		try {
 			File file = new File(fileName);
 			if (file.exists()) {
@@ -119,17 +132,15 @@ public class TextBuddy {
 			// e.printStackTrace();
 			System.out.println("error encountered when reading " + fileName);
 		}
+	}
 
-		// Initialize HashMap
-		// HashMap is to assign an unique id to each control command
-		hm.put("display", DISPLAY_ID);
-		hm.put("add", ADD_ID);
-		hm.put("delete", DELETE_ID);
-		hm.put("clear", CLEAR_ID);
-		hm.put("exit", EXIT_ID);
-
-		System.out.println("Welcome to TextBuddy. " + fileName
-				+ " is ready for use");
+	/**
+	 * Initializes the program controls to a unique ID using a hashmap.
+	 */
+	private void initProgramControls() {
+		for (int i = 0; i < PROGRAM_COMMANDS.length; i++) {
+			programControls.put(PROGRAM_COMMANDS[i], PROGRAM_COMMAND_IDS[i]);
+		}
 	}
 
 	/**
@@ -138,44 +149,45 @@ public class TextBuddy {
 	 */
 	public void exe() {
 
-		/** Run program till "exit" command executed **/
-		boolean exit = false;
+		boolean exitFlag = false;
 
-		while (!exit) {
+		/** Run program till "exit" command executed **/
+		while (!exitFlag) {
 			System.out.print("command: ");
 
 			try {
-				// Split the command and parameters if any
+				// Split the command and parameters (if any) entered by the user
 				String[] cmd = in.readLine().split(" ", 2);
 
-				switch (hm.get(cmd[0].toLowerCase())) {
+				// Identify the program command
+				switch (programControls.get(cmd[0].toLowerCase())) {
 
-					case DISPLAY_ID : // Display case
+					case DISPLAY_ID :
 						printList();
 						break;
 
-					case ADD_ID : // Add case
+					case ADD_ID :
 						addElement(cmd[1]);
 						break;
 
-					case DELETE_ID : // Delete case
+					case DELETE_ID :
 						deleteElement(Integer.parseInt(cmd[1]));
 						break;
 
-					case CLEAR_ID : // Clear case
+					case CLEAR_ID :
 						clearList();
 						break;
 
-					case EXIT_ID : // Exit case
-						exit = true;
+					case EXIT_ID :
+						exitFlag = true;
 						break;
 
 					default:
-						System.out.println("invalid command!");
+						System.out.println(INVALID_COMMAND);
 				}
 			} catch (Exception e) {
 				// e.printStackTrace();
-				System.out.println("invalid command!");
+				System.out.println(INVALID_COMMAND);
 			}
 		}
 	}
@@ -183,7 +195,7 @@ public class TextBuddy {
 	/**
 	 * Writes the list to specified filename.
 	 * 
-	 * @return	True if write was successful, else false. 
+	 * @return True if write was successful, else false.
 	 */
 	private boolean writeToFile() {
 		try {
@@ -208,13 +220,13 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Prints out the list.
+	 * Prints out the list. Each element on one line with a leading serial
+	 * number.
 	 */
 	private void printList() {
 		if (list.isEmpty()) {
 			System.out.println(fileName + " is empty");
 		} else {
-			// Print out the list with a leading serial number
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println((i + 1) + ". " + list.get(i));
 			}
@@ -254,7 +266,7 @@ public class TextBuddy {
 		} else if (list.isEmpty()) {
 			System.out.println(fileName + " is empty");
 		} else {
-			System.out.println("invalid element ID");
+			System.out.println(INVALID_ELEMENT_ID);
 		}
 	}
 
