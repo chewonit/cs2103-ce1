@@ -1,0 +1,39 @@
+Welcome to TextBuddy. mytextfile.txt is ready for use
+command: all content deleted from mytextfile.txt
+command: mytextfile.txt is empty
+command: added to mytextfile.txt: "item 1"
+command: added to mytextfile.txt: "item 2"
+command: added to mytextfile.txt: "item 3"
+command: 1. item 1
+2. item 2
+3. item 3
+command: added to mytextfile.txt: "item 5"
+command: added to mytextfile.txt: "item 4"
+command: 1. item 1
+2. item 2
+3. item 3
+4. item 5
+5. item 4
+command: delete from mytextfile.txt: "item 5"
+command: added to mytextfile.txt: "item 5"
+command: 1. item 1
+2. item 2
+3. item 3
+4. item 4
+5. item 5
+command: invalid element ID
+command: invalid element ID
+command: invalid element ID
+command: 1. item 1
+2. item 2
+3. item 3
+4. item 4
+5. item 5
+command: all content deleted from mytextfile.txt
+command: mytextfile.txt is empty
+command: mytextfile.txt is empty
+command: invalid command!
+command: invalid command!
+command: mytextfile.txt is empty
+command: all content deleted from mytextfile.txt
+command: 

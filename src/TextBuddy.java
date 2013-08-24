@@ -4,11 +4,41 @@
  * Darry Chew
  * Tutorial Group 7
  * 
+ * This class is used to manipulate text in a file. 
+ * A file name can be specified via the program parameters.
+ * If the file exists, the contents of the file will be read in and utilized. 
+ * All new entries will be appended to the back of the list.
+ * The file will be saved when the list has had some changes after an execution.
+ * The command format is given by the example interaction below:
+
+		c:> TextBuddy mytextfile.txt  (OR c:>java  TextBuddy mytextfile.txt)
+		Welcome to TextBuddy. mytextfile.txt is ready for use
+		command: add little brown fox
+		added to mytextfile.txt: “little brown fox”
+		command: display
+		1. little brown fox
+		command: add jumped over the moon
+		added to mytextfile.txt: “jumped over the moon”
+		command: display
+		1. little brown fox
+		2. jumped over the moon
+		command: delete 2
+		deleted from mytextfile.txt: “jumped over the moon”
+		command: display
+		1. little brown fox
+		command: clear
+		all content deleted from mytextfile.txt
+		command: display
+		mytextfile.txt is empty
+		command: exit
+		c:>
+
+ * 
  * Program Assumptions
  * 
  * 1. File Name parameter
- * 	--	TextBuddy accepts no file name parameter
- * 		the date and time will be used as the default file name
+ * 	--	TextBuddy accepts a file name via the program parameter.
+ * 		Otherwise, the date and time will be used as the default file name
  * 	--	If file already exists, contents will be read from the file.
  * 	--	If file does not exist, the file will be created with the specified filename parameter
  * 		during the write operation of the program.
@@ -31,8 +61,6 @@
  * 6. Writing of data
  * 	--	Program will only write to file when the commands add, 
  * 		delete or clear are successfully executed.
- * 
- * @author Darry Chew
  */
 
 import java.io.BufferedReader;
@@ -47,28 +75,44 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * This class is used to manipulate text in a file. 
+ *  
+ * @author Darry Chew
+ *
+ */
 public class TextBuddy {
 
+	private static final String MESSAGE_ADDED_ELEMENT = "added to %s: \"%s\"\n";
+	private static final String MESSAGE_CLEAR_LIST = "all content deleted from %s\n";
+	private static final String MESSAGE_COMMAND_INPUT = "command: ";
+	private static final String MESSAGE_DELETE_ELEMENT = "delete from %s: \"%s\"\n";
+	private static final String MESSAGE_ERROR_SAVING = "error encountered when saving %s\n";
+	private static final String MESSAGE_ERROR_READING = "error encountered when reading %s\n";
+	private static final String MESSAGE_INVALID_COMMAND = "invalid command!";
+	private static final String MESSAGE_INVALID_ELEMENT_ID = "invalid element ID";
+	private static final String MESSAGE_LIST_EMPTY = "%s is empty\n";
+	private static final String MESSAGE_PRINT_LIST = "%d. %s\n";
+	private static final String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use\n";
+
+	// These are the possible command types
 	enum COMMANDS {
 		DISPLAY, ADD, DELETE, CLEAR, EXIT
 	};
 
-	private static final String INVALID_COMMAND = "invalid command!";
-	private static final String INVALID_ELEMENT_ID = "invalid element ID";
-
-	/** filename of the text file **/
+	// Filename of the text file
 	private String fileName;
+
+	// This ArrayList will be used to store all the user input elements
+	private ArrayList<String> list = new ArrayList<String>();
 
 	private BufferedReader in = new BufferedReader(new InputStreamReader(
 			System.in));
 
-	private ArrayList<String> list = new ArrayList<String>();
-
 	public static void main(String[] args) {
 
 		TextBuddy textBuddy = new TextBuddy(args);
-		textBuddy.exe();
-
+		textBuddy.execute();
 	}
 
 	/**
@@ -78,7 +122,7 @@ public class TextBuddy {
 	 */
 	public TextBuddy(String[] arg) {
 
-		// check for input filename parameter
+		// Check for filename in program input parameter
 		if (arg.length > 0) {
 			fileName = arg[0];
 		} else {
@@ -87,17 +131,18 @@ public class TextBuddy {
 
 		checkFileExistance();
 
-		System.out.println("Welcome to TextBuddy. " + fileName
-				+ " is ready for use");
+		System.out.printf(MESSAGE_WELCOME, fileName);
 	}
 
 	/**
-	 * Returns the current date and time
+	 * Gets the current date and time.
+	 * 
+	 * @return The current date and time in "dd-MMM-HH-mm" format.
 	 */
 	public String getDateTime() {
 
-		// No filename parameter input. Set filename to current date and time
-		return (new SimpleDateFormat("dd-MMM-HH-mm").format(new Date()) + ".txt");
+		SimpleDateFormat format = new SimpleDateFormat("dd-MMM-HH-mm");
+		return (format.format(new Date()) + ".txt");
 	}
 
 	/**
@@ -116,7 +161,7 @@ public class TextBuddy {
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
-			System.out.println("error encountered when reading " + fileName);
+			System.out.printf(MESSAGE_ERROR_READING, fileName);
 		}
 	}
 
@@ -124,13 +169,13 @@ public class TextBuddy {
 	 * Main program function. Program will run in a loop until "exit" command
 	 * received.
 	 */
-	public void exe() {
+	public void execute() {
 
 		boolean exitFlag = false;
 
-		/** Run program till "exit" command executed **/
+		// Run program till "exit" command executed
 		while (!exitFlag) {
-			System.out.print("command: ");
+			System.out.print(MESSAGE_COMMAND_INPUT);
 
 			try {
 				// Split the command and parameters (if any) entered by the user
@@ -159,11 +204,11 @@ public class TextBuddy {
 						break;
 
 					default:
-						System.out.println(INVALID_COMMAND);
+						System.out.println(MESSAGE_INVALID_COMMAND);
 				}
 			} catch (Exception e) {
 				// e.printStackTrace();
-				System.out.println(INVALID_COMMAND);
+				System.out.println(MESSAGE_INVALID_COMMAND);
 			}
 		}
 	}
@@ -188,7 +233,7 @@ public class TextBuddy {
 			file.close();
 		} catch (IOException e) {
 			// e.printStackTrace();
-			System.out.println("error encountered when saving " + fileName);
+			System.out.printf(MESSAGE_ERROR_SAVING, fileName);
 			return false;
 		}
 
@@ -201,10 +246,10 @@ public class TextBuddy {
 	 */
 	private void printList() {
 		if (list.isEmpty()) {
-			System.out.println(fileName + " is empty");
+			System.out.printf(MESSAGE_LIST_EMPTY, fileName);
 		} else {
 			for (int i = 0; i < list.size(); i++) {
-				System.out.println((i + 1) + ". " + list.get(i));
+				System.out.printf(MESSAGE_PRINT_LIST, (i + 1), list.get(i));
 			}
 		}
 	}
@@ -218,7 +263,7 @@ public class TextBuddy {
 		list.add(str);
 
 		if (writeToFile()) {
-			System.out.println("added to " + fileName + ": \"" + str + "\"");
+			System.out.printf(MESSAGE_ADDED_ELEMENT, fileName, str);
 		}
 	}
 
@@ -230,19 +275,18 @@ public class TextBuddy {
 	 */
 	private void deleteElement(int id) {
 		if (id > 0 && list.size() >= id) { // Check if ID is valid
-			// 0 based indexing list
-			String str = (String) list.get(id - 1);
-			list.remove(id - 1);
+			int index = id - 1; // 0 based indexing list
+			String str = (String) list.get(index);
+			list.remove(index);
 
 			if (writeToFile()) {
-				System.out.println("deleted from " + fileName + ": \"" + str
-						+ "\"");
+				System.out.printf(MESSAGE_DELETE_ELEMENT, fileName, str);
 			}
 
 		} else if (list.isEmpty()) {
-			System.out.println(fileName + " is empty");
+			System.out.printf(MESSAGE_LIST_EMPTY, fileName);
 		} else {
-			System.out.println(INVALID_ELEMENT_ID);
+			System.out.println(MESSAGE_INVALID_ELEMENT_ID);
 		}
 	}
 
@@ -253,7 +297,7 @@ public class TextBuddy {
 		list.clear();
 
 		if (writeToFile()) {
-			System.out.println("all content deleted from " + fileName);
+			System.out.printf(MESSAGE_CLEAR_LIST, fileName);
 		}
 	}
 
