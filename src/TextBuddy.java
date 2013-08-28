@@ -73,8 +73,8 @@ public class TextBuddy {
 	private static final String MESSAGE_DELETE_ELEMENT = "delete from %s: \"%s\"\n";
 	private static final String MESSAGE_ERROR_SAVING = "error encountered when saving %s\n";
 	private static final String MESSAGE_ERROR_READING = "error encountered when reading %s\n";
-	private static final String MESSAGE_INVALID_COMMAND = "invalid command!";
-	private static final String MESSAGE_INVALID_ELEMENT_ID = "invalid element ID";
+	private static final String MESSAGE_INVALID_COMMAND = "invalid command!\n";
+	private static final String MESSAGE_INVALID_ELEMENT_ID = "invalid element ID\n";
 	private static final String MESSAGE_LIST_EMPTY = "%s is empty\n";
 	private static final String MESSAGE_PRINT_LIST = "%d. %s\n";
 	private static final String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use\n";
@@ -100,7 +100,8 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Constructor with filename in program arguments and checks if file exists.
+	 * Constructor with external filename in program arguments and checks if
+	 * file exists.
 	 * 
 	 * @param arg String array of the program input parameters.
 	 */
@@ -155,10 +156,9 @@ public class TextBuddy {
 	 */
 	public void execute() {
 
-		boolean exitFlag = false;
+		String output = "";
 
-		// Run program till "exit" command executed
-		while (!exitFlag) {
+		while (true) {
 			System.out.print(MESSAGE_COMMAND_INPUT);
 
 			try {
@@ -168,31 +168,33 @@ public class TextBuddy {
 				switch (COMMANDS.valueOf(cmd[0].toUpperCase())) {
 
 					case DISPLAY :
-						printList();
+						output = printList();
 						break;
 
 					case ADD :
-						addElement(cmd[1]);
+						output = addElement(cmd[1]);
 						break;
 
 					case DELETE :
-						deleteElement(Integer.parseInt(cmd[1]));
+						output = deleteElement(Integer.parseInt(cmd[1]));
 						break;
 
 					case CLEAR :
-						clearList();
+						output = clearList();
 						break;
 
 					case EXIT :
-						exitFlag = true;
+						System.exit(0);
 						break;
 
 					default:
-						System.out.println(MESSAGE_INVALID_COMMAND);
+						output = MESSAGE_INVALID_COMMAND;
 				}
 			} catch (Exception e) {
-				System.out.println(MESSAGE_INVALID_COMMAND);
+				output = MESSAGE_INVALID_COMMAND;
 			}
+			
+			System.out.print(output);
 		}
 	}
 
@@ -215,7 +217,7 @@ public class TextBuddy {
 			file.flush();
 			file.close();
 		} catch (IOException e) {
-			System.out.printf(MESSAGE_ERROR_SAVING, fileName);
+			//System.out.printf(MESSAGE_ERROR_SAVING, fileName);
 			return false;
 		}
 
@@ -226,14 +228,16 @@ public class TextBuddy {
 	 * Prints out the list. Each element on one line with a leading serial
 	 * number.
 	 */
-	private void printList() {
+	private String printList() {
+		StringBuffer output = new StringBuffer();
 		if (list.isEmpty()) {
 			System.out.printf(MESSAGE_LIST_EMPTY, fileName);
 		} else {
 			for (int i = 0; i < list.size(); i++) {
-				System.out.printf(MESSAGE_PRINT_LIST, (i + 1), list.get(i));
+				output.append(String.format(MESSAGE_PRINT_LIST, (i + 1), list.get(i)));
 			}
 		}
+		return output.toString();
 	}
 
 	/**
@@ -241,11 +245,13 @@ public class TextBuddy {
 	 * 
 	 * @param str String element to be added to the list.
 	 */
-	private void addElement(String str) {
+	private String addElement(String str) {
 		list.add(str);
 
 		if (writeToFile()) {
-			System.out.printf(MESSAGE_ADDED_ELEMENT, fileName, str);
+			return String.format(MESSAGE_ADDED_ELEMENT, fileName, str);
+		} else {
+			return String.format(MESSAGE_ERROR_SAVING, fileName);
 		}
 	}
 
@@ -255,31 +261,35 @@ public class TextBuddy {
 	 * 
 	 * @param id ID of element to be deleted.
 	 */
-	private void deleteElement(int id) {
+	private String deleteElement(int id) {
 		if (id > 0 && list.size() >= id) { // Check if ID is valid
 			int index = id - 1; // 0 based indexing list
 			String str = list.get(index);
 			list.remove(index);
 
 			if (writeToFile()) {
-				System.out.printf(MESSAGE_DELETE_ELEMENT, fileName, str);
+				return String.format(MESSAGE_DELETE_ELEMENT, fileName, str);
+			} else {
+				return String.format(MESSAGE_ERROR_SAVING, fileName);
 			}
 
 		} else if (list.isEmpty()) {
-			System.out.printf(MESSAGE_LIST_EMPTY, fileName);
+			return String.format(MESSAGE_LIST_EMPTY, fileName);
 		} else {
-			System.out.println(MESSAGE_INVALID_ELEMENT_ID);
+			return String.format(MESSAGE_INVALID_ELEMENT_ID);
 		}
 	}
 
 	/**
 	 * Clears the list
 	 */
-	private void clearList() {
+	private String clearList() {
 		list.clear();
 
 		if (writeToFile()) {
-			System.out.printf(MESSAGE_CLEAR_LIST, fileName);
+			return String.format(MESSAGE_CLEAR_LIST, fileName);
+		} else {
+			return String.format(MESSAGE_ERROR_SAVING, fileName);
 		}
 	}
 
