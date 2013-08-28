@@ -2,38 +2,60 @@ Welcome to TextBuddy. mytextfile.txt is ready for use
 command: all content deleted from mytextfile.txt
 command: mytextfile.txt is empty
 command: added to mytextfile.txt: "item 1"
+command: 1. item 1
+command: delete from mytextfile.txt: "item 1"
+command: added to mytextfile.txt: "item 1"
+command: all content deleted from mytextfile.txt
+command: added to mytextfile.txt: "item 1"
 command: added to mytextfile.txt: "item 2"
 command: added to mytextfile.txt: "item 3"
 command: 1. item 1
 2. item 2
 3. item 3
-command: added to mytextfile.txt: "item 5"
-command: added to mytextfile.txt: "item 4"
-command: 1. item 1
-2. item 2
-3. item 3
-4. item 5
-5. item 4
-command: delete from mytextfile.txt: "item 5"
-command: added to mytextfile.txt: "item 5"
-command: 1. item 1
-2. item 2
-3. item 3
-4. item 4
-5. item 5
 command: invalid element ID
 command: invalid element ID
 command: invalid element ID
+command: invalid element ID
+command: added to mytextfile.txt: "item A"
+command: added to mytextfile.txt: "item B"
+command: added to mytextfile.txt: "item C"
 command: 1. item 1
 2. item 2
 3. item 3
-4. item 4
-5. item 5
+4. item A
+5. item B
+6. item C
+command: delete from mytextfile.txt: "item 1"
+command: 1. item 2
+2. item 3
+3. item A
+4. item B
+5. item C
+command: delete from mytextfile.txt: "item 2"
+command: 1. item 3
+2. item A
+3. item B
+4. item C
+command: delete from mytextfile.txt: "item 3"
+command: 1. item A
+2. item B
+3. item C
+command: 1. item A
+2. item B
+3. item C
+command: added to mytextfile.txt: "item D with traling text"
+command: delete from mytextfile.txt: "item D with traling text"
+command: 1. item A
+2. item B
+3. item C
+command: added to mytextfile.txt: "ITEM 1"
+command: 1. item A
+2. item B
+3. item C
+4. ITEM 1
+command: delete from mytextfile.txt: "item A"
 command: all content deleted from mytextfile.txt
-command: mytextfile.txt is empty
-command: mytextfile.txt is empty
 command: invalid command!
 command: invalid command!
-command: mytextfile.txt is empty
-command: all content deleted from mytextfile.txt
+command: invalid command!
 command: 

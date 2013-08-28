@@ -1,24 +1,37 @@
 clear
 display
 add item 1
+display
+delete 1
+add item 1
+clear
+add item 1
 add item 2
 add item 3
 display
-add item 5
-add item 4
-display
-delete 4
-add item 5
-display
 delete 0
-delete 100
-delete -100
-display
-clear
+delete 4
+delete -10
+delete 10
+add item A
+add item B
+add item C
 display
 delete 1
-invalid command
-delete invalid
-display can still execute
-clear can still execute
+display
+delete 1
+display
+delete 1
+display
+display with trailing text
+add item D with traling text
+delete 4 with traling text
+DISPLAY
+ADD ITEM 1
+DISPLAY
+DELETE 1
+CLEAR
+add
+delete
+delete test
 exit
