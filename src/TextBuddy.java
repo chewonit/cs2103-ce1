@@ -50,7 +50,7 @@ import java.util.Date;
  * 2. File Data Storage -- "\n" will be used to separate elements
  * 
  * 3. Invalid Commands -- Program will print "invalid command!" and will prompt
- * user to enter new command. Traling text behind commands (i.e. Display XXXXXX)
+ * user to enter new command. Trailing text behind commands (i.e. Display XXXXXX)
  * will be dropped and ignored.
  * 
  * 4. Out of bounds deletion -- Attempt to delete an element of id smaller than
