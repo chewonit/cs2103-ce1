@@ -159,7 +159,7 @@ public class TextBuddy {
 		String output = "";
 
 		while (true) {
-			System.out.print(MESSAGE_COMMAND_INPUT);
+			printOut(MESSAGE_COMMAND_INPUT);
 
 			try {
 				// Split the command and parameters (if any) entered by the user
@@ -194,7 +194,7 @@ public class TextBuddy {
 				output = MESSAGE_INVALID_COMMAND;
 			}
 			
-			System.out.print(output);
+			printOut(output);
 		}
 	}
 
@@ -291,6 +291,10 @@ public class TextBuddy {
 		} else {
 			return String.format(MESSAGE_ERROR_SAVING, fileName);
 		}
+	}
+	
+	private void printOut(String output) {
+		System.out.print(output);
 	}
 
 }
