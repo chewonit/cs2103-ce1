@@ -4,79 +4,55 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * CE1: TextBuddy
- * A0097797Y
- * Darry Chew
- * Tutorial Group 7
+ * CE1: TextBuddy A0097797Y Darry Chew Tutorial Group 7
  * 
- * This class is used to manipulate text in a file. 
- * A file name can be specified via the program parameters.
- * If the file exists, the contents of the file will be read in and utilized. 
- * All new entries will be appended to the back of the list.
- * The file will be saved when the list has had some changes after an execution.
- * The command format is given by the example interaction below:
-
-		c:> TextBuddy mytextfile.txt  (OR c:>java  TextBuddy mytextfile.txt)
-		Welcome to TextBuddy. mytextfile.txt is ready for use
-		command: add little brown fox
-		added to mytextfile.txt: “little brown fox”
-		command: display
-		1. little brown fox
-		command: add jumped over the moon
-		added to mytextfile.txt: “jumped over the moon”
-		command: display
-		1. little brown fox
-		2. jumped over the moon
-		command: delete 2
-		deleted from mytextfile.txt: “jumped over the moon”
-		command: display
-		1. little brown fox
-		command: clear
-		all content deleted from mytextfile.txt
-		command: display
-		mytextfile.txt is empty
-		command: exit
-		c:>
-
+ * This class is used to manipulate text in a file. A file name can be specified
+ * via the program parameters. If the file exists, the contents of the file will
+ * be read in and utilized. All new entries will be appended to the back of the
+ * list. The file will be saved when the list has had some changes after an
+ * execution. The command format is given by the example interaction below:
+ * 
+ * c:> TextBuddy mytextfile.txt (OR c:>java TextBuddy mytextfile.txt) Welcome to
+ * TextBuddy. mytextfile.txt is ready for use command: add little brown fox
+ * added to mytextfile.txt: “little brown fox” command: display 1. little brown
+ * fox command: add jumped over the moon added to mytextfile.txt: “jumped over
+ * the moon” command: display 1. little brown fox 2. jumped over the moon
+ * command: delete 2 deleted from mytextfile.txt: “jumped over the moon”
+ * command: display 1. little brown fox command: clear all content deleted from
+ * mytextfile.txt command: display mytextfile.txt is empty command: exit c:>
+ * 
  * 
  * Program Assumptions
  * 
- * 1. File Name parameter
- * 	--	TextBuddy accepts a file name via the program parameter.
- * 		Otherwise, the date and time will be used as the default file name
- * 	--	If file already exists, contents will be read from the file.
- * 	--	If file does not exist, the file will be created with the specified filename parameter
- * 		during the write operation of the program.
+ * 1. File Name parameter -- TextBuddy accepts a file name via the program
+ * parameter. Otherwise, the date and time will be used as the default file name
+ * -- If file already exists, contents will be read from the file. -- If file
+ * does not exist, the file will be created with the specified filename
+ * parameter during the write operation of the program.
  * 
- * 2. File Data Storage
- * 	--	Data txt file to be in the same directory
- * 	--	Line Feed "\n" will be used to separate elements
+ * 2. File Data Storage -- Data txt file to be in the same directory -- Line
+ * Feed "\n" will be used to separate elements
  * 
- * 3. Invalid Commands
- * 	-- 	Program will print "invalid command!" and prompt user to enter new command
+ * 3. Invalid Commands -- Program will print "invalid command!" and prompt user
+ * to enter new command
  * 
- * 4. Out of bounds deletion
- * 	--	Attempt to delete an element of id smaller than 0 or greater than the list size will
- * 		prompt "invalid element ID".
+ * 4. Out of bounds deletion -- Attempt to delete an element of id smaller than
+ * 0 or greater than the list size will prompt "invalid element ID".
  * 
- * 5. Command letter case
- * 	--	Program will accept command in any letter case (capital, small, mixed).
- * 		i.e. DELETE, delete, DeLeTe  
+ * 5. Command letter case -- Program will accept command in any letter case
+ * (capital, small, mixed). i.e. DELETE, delete, DeLeTe
  * 
- * 6. Writing of data
- * 	--	Program will only write to file when the commands add, 
- * 		delete or clear are successfully executed.
- * This class is used to manipulate text in a file. 
- *  
+ * 6. Writing of data -- Program will only write to file when the commands add,
+ * delete or clear are successfully executed. This class is used to manipulate
+ * text in a file.
+ * 
  * @author Darry Chew
- *
+ * 
  */
 public class TextBuddy {
 
@@ -97,13 +73,13 @@ public class TextBuddy {
 		DISPLAY, ADD, DELETE, CLEAR, EXIT
 	};
 
-	// Filename of the text file
+	// Filename of the output data text file
 	private String fileName;
 
 	// This ArrayList will be used to store all the user input elements
-	private ArrayList<String> list = new ArrayList<String>();
+	private final ArrayList<String> list = new ArrayList<String>();
 
-	private BufferedReader in = new BufferedReader(new InputStreamReader(
+	private final BufferedReader in = new BufferedReader(new InputStreamReader(
 			System.in));
 
 	public static void main(String[] args) {
@@ -113,7 +89,7 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Constructor with filename.
+	 * Constructor with filename in program arguments and checks if file exists.
 	 * 
 	 * @param arg String array of the program input parameters.
 	 */
@@ -149,6 +125,7 @@ public class TextBuddy {
 		try {
 			File file = new File(fileName);
 			if (file.exists()) {
+				// Read in the file contents and add it to the list
 				String ln;
 				BufferedReader br = new BufferedReader(new FileReader(fileName));
 				while ((ln = br.readLine()) != null) {
@@ -157,7 +134,6 @@ public class TextBuddy {
 				br.close();
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
 			System.out.printf(MESSAGE_ERROR_READING, fileName);
 		}
 	}
@@ -204,7 +180,6 @@ public class TextBuddy {
 						System.out.println(MESSAGE_INVALID_COMMAND);
 				}
 			} catch (Exception e) {
-				// e.printStackTrace();
 				System.out.println(MESSAGE_INVALID_COMMAND);
 			}
 		}
@@ -229,7 +204,6 @@ public class TextBuddy {
 			file.flush();
 			file.close();
 		} catch (IOException e) {
-			// e.printStackTrace();
 			System.out.printf(MESSAGE_ERROR_SAVING, fileName);
 			return false;
 		}
@@ -273,7 +247,7 @@ public class TextBuddy {
 	private void deleteElement(int id) {
 		if (id > 0 && list.size() >= id) { // Check if ID is valid
 			int index = id - 1; // 0 based indexing list
-			String str = (String) list.get(index);
+			String str = list.get(index);
 			list.remove(index);
 
 			if (writeToFile()) {
