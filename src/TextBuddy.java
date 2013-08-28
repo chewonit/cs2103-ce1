@@ -166,6 +166,7 @@ public class TextBuddy {
 				// Split the command and parameters (if any) entered by the user
 				String[] cmd = in.readLine().split(" ", 2);
 
+				// Match user input command with program available commands 
 				switch (COMMANDS.valueOf(cmd[0].toUpperCase())) {
 
 					case DISPLAY :
@@ -228,6 +229,8 @@ public class TextBuddy {
 	/**
 	 * Prints out the list. Each element on one line with a leading serial
 	 * number.
+	 * 
+	 * @return	Returns the formatted list to be printed.
 	 */
 	private String printList() {
 		StringBuffer output = new StringBuffer();
@@ -244,7 +247,8 @@ public class TextBuddy {
 	/**
 	 * Adds an element to the list.
 	 * 
-	 * @param str String element to be added to the list.
+	 * @param str 	String element to be added to the list.
+	 * @return		Feedback successful/unsuccessful message.
 	 */
 	private String addElement(String str) {
 		list.add(str);
@@ -260,7 +264,8 @@ public class TextBuddy {
 	 * Deletes an element from the list. Checks if list is empty or if element
 	 * ID is out of bounds.
 	 * 
-	 * @param id ID of element to be deleted.
+	 * @param id	ID of element to be deleted.
+	 * @return		Feedback successful/unsuccessful message.
 	 */
 	private String deleteElement(int id) {
 		if (id > 0 && list.size() >= id) { // Check if ID is valid
@@ -283,6 +288,8 @@ public class TextBuddy {
 
 	/**
 	 * Clears the list
+	 * 
+	 * @return	Feedback successful/unsuccessful message.
 	 */
 	private String clearList() {
 		list.clear();
