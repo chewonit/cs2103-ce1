@@ -1,3 +1,15 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * CE1: TextBuddy
  * A0097797Y
@@ -61,21 +73,6 @@
  * 6. Writing of data
  * 	--	Program will only write to file when the commands add, 
  * 		delete or clear are successfully executed.
- */
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
-import java.util.Date;
-
-/**
  * This class is used to manipulate text in a file. 
  *  
  * @author Darry Chew
