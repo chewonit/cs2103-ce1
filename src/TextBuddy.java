@@ -164,7 +164,7 @@ public class TextBuddy {
 
 			try {
 				// Split the command and parameters (if any) entered by the user
-				String[] cmd = in.readLine().split(" ", 2);
+				String[] cmd = in.readLine().trim().split(" ", 2);
 
 				// Match user input command with program available commands 
 				switch (COMMANDS.valueOf(cmd[0].toUpperCase())) {
@@ -178,7 +178,7 @@ public class TextBuddy {
 						break;
 
 					case DELETE :
-						output = deleteElement(Integer.parseInt(cmd[1]));
+						output = deleteElement(cmd[1]);
 						break;
 
 					case CLEAR :
@@ -267,14 +267,23 @@ public class TextBuddy {
 	 * @param id	ID of element to be deleted.
 	 * @return		Feedback successful/unsuccessful message.
 	 */
-	private String deleteElement(int id) {
+	private String deleteElement(String str) {
+		
+		int id = 0;
+		
+		try {
+			id = Integer.parseInt(str.split(" ", 2)[0]);
+		} catch(Exception e) {
+			return MESSAGE_INVALID_COMMAND;
+		}
+		
 		if (id > 0 && list.size() >= id) { // Check if ID is valid
 			int index = id - 1; // 0 based indexing list
-			String str = list.get(index);
+			String element = list.get(index);
 			list.remove(index);
 
 			if (writeToFile()) {
-				return String.format(MESSAGE_DELETE_ELEMENT, fileName, str);
+				return String.format(MESSAGE_DELETE_ELEMENT, fileName, element);
 			} else {
 				return String.format(MESSAGE_ERROR_SAVING, fileName);
 			}
