@@ -116,7 +116,7 @@ public class TextBuddy {
 
 		checkFileExistance();
 
-		System.out.printf(MESSAGE_WELCOME, fileName);
+		printOut(String.format(MESSAGE_WELCOME, fileName));
 	}
 
 	/**
@@ -146,7 +146,8 @@ public class TextBuddy {
 				br.close();
 			}
 		} catch (Exception e) {
-			System.out.printf(MESSAGE_ERROR_READING, fileName);
+			list.clear();	// Clear all corrupted data
+			printOut(String.format(MESSAGE_ERROR_READING, fileName));
 		}
 	}
 
