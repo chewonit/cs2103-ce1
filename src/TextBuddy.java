@@ -9,47 +9,58 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * CE1: TextBuddy A0097797Y Darry Chew Tutorial Group 7
+ * CE1: TextBuddy 
+ * A0097797Y 
+ * Darry Chew 
+ * Tutorial Group 7
  * 
- * This class is used to manipulate text in a file. A file name can be specified
- * via the program parameters. If the file exists, the contents of the file will
- * be read in and utilized. All new entries will be appended to the back of the
- * list. The file will be saved when the list has had some changes after an
- * execution. The command format is given by the example interaction below:
+ * This class is used to manipulate text in a file. File name can be specified
+ * via the program parameters and its contents will be utilized if exists. All
+ * new entries will be appended to the back of the list. The file will be saved
+ * when the list has had some changes after an execution. The command format is
+ * given by the example interaction below:
  * 
- * c:> TextBuddy mytextfile.txt (OR c:>java TextBuddy mytextfile.txt) Welcome to
- * TextBuddy. mytextfile.txt is ready for use command: add little brown fox
- * added to mytextfile.txt: “little brown fox” command: display 1. little brown
- * fox command: add jumped over the moon added to mytextfile.txt: “jumped over
- * the moon” command: display 1. little brown fox 2. jumped over the moon
- * command: delete 2 deleted from mytextfile.txt: “jumped over the moon”
- * command: display 1. little brown fox command: clear all content deleted from
- * mytextfile.txt command: display mytextfile.txt is empty command: exit c:>
- * 
+ *		c:> TextBuddy mytextfile.txt  (OR c:>java  TextBuddy mytextfile.txt)
+ *		Welcome to TextBuddy. mytextfile.txt is ready for use
+ *		command: add little brown fox
+ *		added to mytextfile.txt: “little brown fox”
+ *		command: display
+ *		1. little brown fox
+ *		command: add jumped over the moon
+ *		added to mytextfile.txt: “jumped over the moon”
+ *		command: display
+ *		1. little brown fox
+ *		2. jumped over the moon
+ *		command: delete 2
+ *		deleted from mytextfile.txt: “jumped over the moon”
+ *		command: display
+ *		1. little brown fox
+ *		command: clear
+ *		all content deleted from mytextfile.txt
+ *		command: display
+ *		mytextfile.txt is empty
+ *		command: exit
+ *		c:> 
  * 
  * Program Assumptions
  * 
- * 1. File Name parameter -- TextBuddy accepts a file name via the program
- * parameter. Otherwise, the date and time will be used as the default file name
- * -- If file already exists, contents will be read from the file. -- If file
- * does not exist, the file will be created with the specified filename
- * parameter during the write operation of the program.
+ * 1. File Name parameter -- The date and time will be used as the default file
+ * name if none entered. Contents of file will be will be utilized if exists.
  * 
- * 2. File Data Storage -- Data txt file to be in the same directory -- Line
- * Feed "\n" will be used to separate elements
+ * 2. File Data Storage -- "\n" will be used to separate elements
  * 
- * 3. Invalid Commands -- Program will print "invalid command!" and prompt user
- * to enter new command
+ * 3. Invalid Commands -- Program will print "invalid command!" and will prompt
+ * user to enter new command. Traling text behind commands (i.e. Display XXXXXX)
+ * will be dropped and ignored.
  * 
  * 4. Out of bounds deletion -- Attempt to delete an element of id smaller than
  * 0 or greater than the list size will prompt "invalid element ID".
  * 
- * 5. Command letter case -- Program will accept command in any letter case
- * (capital, small, mixed). i.e. DELETE, delete, DeLeTe
+ * 5. Command letter case -- Program will accept commands in any letter case
+ * size (capital, small, mixed). i.e. clear, ClEar, CLEAR
  * 
  * 6. Writing of data -- Program will only write to file when the commands add,
- * delete or clear are successfully executed. This class is used to manipulate
- * text in a file.
+ * delete or clear have been successfully executed.
  * 
  * @author Darry Chew
  * 
