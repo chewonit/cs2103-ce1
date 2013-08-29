@@ -252,36 +252,52 @@ public class TextBuddy {
 	/**
 	 * Adds an element to the list and saves to file.
 	 * 
-	 * @param str 	String element to be added to the list.
-	 * @return		Feedback successful/unsuccessful message.
+	 * @param element	String element to be added to the list.
+	 * @return			Feedback successful/unsuccessful message.
 	 */
-	private String addElement(String str) {
-		list.add(str);
+	private String addElement(String element) {
+		list.add(element);
 		
 		boolean isFileSaveSuccessful = saveToFile();
 
 		if (isFileSaveSuccessful) {
-			return String.format(MESSAGE_ADDED_ELEMENT, fileName, str);
+			return String.format(MESSAGE_ADDED_ELEMENT, fileName, element);
 		} else {
 			return String.format(MESSAGE_ERROR_SAVING, fileName);
 		}
 	}
 
 	/**
+	 * Parse the parameter string into integer preparing for element deletion.
+	 * 
+	 * @param param			User entered parameter.
+	 * @return				ID as entered by user if valid. Else, -1.
+	 * @throws Exception 	When invalid element ID entered.
+	 */
+	private int parseID(String param) throws Exception {
+		try {
+			return Integer.parseInt(param.split(" ", 2)[0]);
+		} catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/**
 	 * Deletes an element from the list and saves to file. Checks if list is empty or if element
 	 * ID is out of bounds.
 	 * 
-	 * @param id	ID of element to be deleted.
+	 * @param param	User entered parameter containing ID of element to be deleted.
 	 * @return		Feedback successful/unsuccessful message.
 	 */
-	private String deleteElement(String str) {
+	private String deleteElement(String param) {
 		
 		int id = 0;
 		
+		// Parse the element ID
 		try {
-			id = Integer.parseInt(str.split(" ", 2)[0]);
-		} catch(Exception e) {
-			return MESSAGE_INVALID_COMMAND;
+			id = parseID(param);
+		} catch (Exception e) {
+			return String.format(MESSAGE_INVALID_COMMAND);
 		}
 		
 		if (id > 0 && list.size() >= id) { // Check if ID is valid
