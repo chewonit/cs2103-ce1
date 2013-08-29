@@ -62,8 +62,8 @@ import java.util.Date;
  * 5. Command letter case -- Program will accept commands in any letter case
  * size (capital, small, mixed). i.e. clear, ClEar, CLEAR
  * 
- * 6. Writing of data -- Program will only save to file when the commands add,
- * delete or clear have been successfully executed.
+ * 6. Writing of data -- Program will only save to file when there has been
+ * modifications made (i.e. after add, delete or clear commands).
  * 
  * @author Darry Chew
  * 
