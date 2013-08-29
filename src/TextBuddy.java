@@ -14,7 +14,7 @@ import java.util.Date;
  * CE1: TextBuddy 
  * A0097797Y 
  * Darry Chew 
- * Tutorial Group 7
+ * Tutorial ID F12
  * 
  * TextBuddy is used to manipulate text in a file. Users can specify a file name
  * via the program parameters and its contents will be utilized if exists. Users
