@@ -130,7 +130,7 @@ public class TextBuddy {
 	 * 
 	 * @return The current date and time in "dd-MMM-HH-mm" format.
 	 */
-	public String getDateTime() {
+	private String getDateTime() {
 
 		SimpleDateFormat format = new SimpleDateFormat("dd-MMM-HH-mm");
 		return (format.format(new Date()));
