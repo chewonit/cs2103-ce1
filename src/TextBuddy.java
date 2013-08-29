@@ -4,9 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -69,10 +67,6 @@ import java.util.Date;
  */
 public class TextBuddy {
 
-	// Booleans used when saving file
-	private static final boolean FILE_SAVE_SUCCESSFUL = true;
-	private static final boolean FILE_SAVE_UNSUCCESSFUL = false;
-	
 	private static final String MESSAGE_ADDED_ELEMENT = "added to %s: \"%s\"\n";
 	private static final String MESSAGE_CLEAR_LIST = "all content deleted from %s\n";
 	private static final String MESSAGE_COMMAND_INPUT = "command: ";
@@ -84,6 +78,12 @@ public class TextBuddy {
 	private static final String MESSAGE_LIST_EMPTY = "%s is empty\n";
 	private static final String MESSAGE_PRINT_LIST = "%d. %s\n";
 	private static final String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use\n";
+	
+	private static final String TEXT_FILE_EXTENSION = ".txt";
+	
+	// Booleans used when saving file
+	private static final boolean FILE_SAVE_SUCCESSFUL = true;
+	private static final boolean FILE_SAVE_UNSUCCESSFUL = false;
 
 	// These are the possible command types
 	enum COMMANDS {
@@ -117,7 +117,7 @@ public class TextBuddy {
 		if (arg.length > 0) {
 			fileName = arg[0];
 		} else {
-			fileName = getDateTime();
+			fileName = getDateTime().concat(TEXT_FILE_EXTENSION);
 		}
 
 		checkFileExistance();
@@ -133,7 +133,7 @@ public class TextBuddy {
 	public String getDateTime() {
 
 		SimpleDateFormat format = new SimpleDateFormat("dd-MMM-HH-mm");
-		return (format.format(new Date()) + ".txt");
+		return (format.format(new Date()));
 	}
 
 	/**
