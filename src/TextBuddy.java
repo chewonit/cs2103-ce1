@@ -106,7 +106,7 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Constructor with external filename in program arguments and checks if
+	 * Constructor process filename input from program arguments and checks if
 	 * file exists.
 	 * 
 	 * @param arg String array of the program input parameters.
@@ -271,7 +271,7 @@ public class TextBuddy {
 	 * Parse the parameter string into integer preparing for element deletion.
 	 * 
 	 * @param param			User entered parameter.
-	 * @return				ID as entered by user if valid. Else, -1.
+	 * @return				Element ID as entered by user if valid.
 	 * @throws Exception 	When invalid element ID entered.
 	 */
 	private int parseID(String param) throws Exception {
@@ -283,8 +283,8 @@ public class TextBuddy {
 	}
 	
 	/**
-	 * Deletes an element from the list and saves to file. Checks if list is empty or if element
-	 * ID is out of bounds.
+	 * Deletes an element from the list and saves to file.
+	 * Checks if list is empty or if element ID is out of bounds.
 	 * 
 	 * @param param	User entered parameter containing ID of element to be deleted.
 	 * @return		Feedback successful/unsuccessful message.
