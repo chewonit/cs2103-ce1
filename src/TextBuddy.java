@@ -144,10 +144,10 @@ public class TextBuddy {
 			File file = new File(fileName);
 			if (file.exists()) {
 				// Read in the file contents and add it to the list
-				String ln;
+				String line;
 				BufferedReader br = new BufferedReader(new FileReader(fileName));
-				while ((ln = br.readLine()) != null) {
-					list.add(ln);
+				while ((line = br.readLine()) != null) {
+					list.add(line);
 				}
 				br.close();
 			}
