@@ -4,7 +4,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,11 +16,12 @@ import java.util.Date;
  * Darry Chew 
  * Tutorial Group 7
  * 
- * This class is used to manipulate text in a file. File name can be specified
- * via the program parameters and its contents will be utilized if exists. All
- * new entries will be appended to the back of the list. The file will be saved
- * when the list has had some changes after an execution. The command format is
- * given by the example interaction below:
+ * TextBuddy is used to manipulate text in a file. Users can specify a file name
+ * via the program parameters and its contents will be utilized if exists. Users
+ * can add, delete, clear and display the contents. All new entries will be
+ * appended to the back of the list. The file will be saved when the list has
+ * had some changes after an execution. Exit will terminate the program. The
+ * command format is given by the example interaction below:
  * 
  *		c:> TextBuddy mytextfile.txt  (OR c:>java  TextBuddy mytextfile.txt)
  *		Welcome to TextBuddy. mytextfile.txt is ready for use
@@ -44,16 +47,16 @@ import java.util.Date;
  * 
  * Program Assumptions
  * 
- * 1. File Name parameter -- The date and time will be used as the default file
+ * 1. File name parameter -- The date and time will be used as the default file
  * name if none entered. Contents of file will be will be utilized if exists.
  * 
- * 2. File Data Storage -- "\n" will be used to separate elements
+ * 2. File data storage -- "\n" will be used to separate elements
  * 
- * 3. Invalid Commands -- Program will print "invalid command!" and will prompt
- * user to enter new command. Trailing text behind commands (i.e. Display XXXXXX)
+ * 3. Invalid commands -- Program will print "invalid command!" and will prompt
+ * user to enter new command. Text trailing behind commands (i.e. Display XXXXXX)
  * will be dropped and ignored.
  * 
- * 4. Out of bounds deletion -- Attempt to delete an element of id smaller than
+ * 4. Out of bounds deletion -- Attempt to delete an element of ID smaller than
  * 0 or greater than the list size will prompt "invalid element ID".
  * 
  * 5. Command letter case -- Program will accept commands in any letter case
@@ -78,9 +81,9 @@ public class TextBuddy {
 	private static final String MESSAGE_LIST_EMPTY = "%s is empty\n";
 	private static final String MESSAGE_PRINT_LIST = "%d. %s\n";
 	private static final String MESSAGE_WELCOME = "Welcome to TextBuddy. %s is ready for use\n";
-	
+
 	private static final String TEXT_FILE_EXTENSION = ".txt";
-	
+
 	// Booleans used when saving file
 	private static final boolean FILE_SAVE_SUCCESSFUL = true;
 	private static final boolean FILE_SAVE_UNSUCCESSFUL = false;
@@ -152,7 +155,7 @@ public class TextBuddy {
 				br.close();
 			}
 		} catch (Exception e) {
-			list.clear();	// Clear all corrupted data
+			list.clear(); // Clear all corrupted data
 			printOut(String.format(MESSAGE_ERROR_READING, fileName));
 		}
 	}
@@ -172,7 +175,7 @@ public class TextBuddy {
 				// Split the command and parameters (if any) entered by the user
 				String[] cmd = in.readLine().trim().split(" ", 2);
 
-				// Match user input command with program available commands 
+				// Match user input command with program available commands
 				switch (COMMANDS.valueOf(cmd[0].toUpperCase())) {
 
 					case DISPLAY :
@@ -201,7 +204,7 @@ public class TextBuddy {
 			} catch (Exception e) {
 				output = MESSAGE_INVALID_COMMAND;
 			}
-			
+
 			printOut(output);
 		}
 	}
@@ -235,7 +238,7 @@ public class TextBuddy {
 	 * Prints out the list. Each element on one line with a leading serial
 	 * number.
 	 * 
-	 * @return	Returns the formatted list to be printed.
+	 * @return Returns the formatted list to be printed.
 	 */
 	private String printList() {
 		StringBuffer output = new StringBuffer();
@@ -243,7 +246,8 @@ public class TextBuddy {
 			System.out.printf(MESSAGE_LIST_EMPTY, fileName);
 		} else {
 			for (int i = 0; i < list.size(); i++) {
-				output.append(String.format(MESSAGE_PRINT_LIST, (i + 1), list.get(i)));
+				output.append(String.format(MESSAGE_PRINT_LIST, (i + 1),
+						list.get(i)));
 			}
 		}
 		return output.toString();
@@ -252,12 +256,12 @@ public class TextBuddy {
 	/**
 	 * Adds an element to the list and saves to file.
 	 * 
-	 * @param element	String element to be added to the list.
-	 * @return			Feedback successful/unsuccessful message.
+	 * @param element 	String element to be added to the list.
+	 * @return 			Feedback successful/unsuccessful message.
 	 */
 	private String addElement(String element) {
 		list.add(element);
-		
+
 		boolean isFileSaveSuccessful = saveToFile();
 
 		if (isFileSaveSuccessful) {
@@ -270,41 +274,42 @@ public class TextBuddy {
 	/**
 	 * Parse the parameter string into integer preparing for element deletion.
 	 * 
-	 * @param param			User entered parameter.
-	 * @return				Element ID as entered by user if valid.
-	 * @throws Exception 	When invalid element ID entered.
+	 * @param param 	User entered parameter.
+	 * @return 			Element ID as entered by user if valid.
+	 * @throws 			Exception When invalid element ID entered.
 	 */
 	private int parseID(String param) throws Exception {
 		try {
 			return Integer.parseInt(param.split(" ", 2)[0]);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
 	}
-	
+
 	/**
-	 * Deletes an element from the list and saves to file.
-	 * Checks if list is empty or if element ID is out of bounds.
+	 * Deletes an element from the list and saves to file. Checks if list is
+	 * empty or if element ID is out of bounds.
 	 * 
-	 * @param param	User entered parameter containing ID of element to be deleted.
-	 * @return		Feedback successful/unsuccessful message.
+	 * @param param User entered parameter containing ID of element to be
+	 *            	deleted.
+	 * @return 		Feedback successful/unsuccessful message.
 	 */
 	private String deleteElement(String param) {
-		
+
 		int id = 0;
-		
+
 		// Parse the element ID
 		try {
 			id = parseID(param);
 		} catch (Exception e) {
 			return String.format(MESSAGE_INVALID_COMMAND);
 		}
-		
+
 		if (id > 0 && list.size() >= id) { // Check if ID is valid
 			int index = id - 1; // 0 based indexing list
 			String element = list.get(index);
 			list.remove(index);
-			
+
 			boolean isFileSaveSuccessful = saveToFile();
 
 			if (isFileSaveSuccessful) {
@@ -323,11 +328,11 @@ public class TextBuddy {
 	/**
 	 * Clears the list and saves to file.
 	 * 
-	 * @return	Feedback successful/unsuccessful message.
+	 * @return Feedback successful/unsuccessful message.
 	 */
 	private String clearList() {
 		list.clear();
-		
+
 		boolean isFileSaveSuccessful = saveToFile();
 
 		if (isFileSaveSuccessful) {
@@ -336,7 +341,7 @@ public class TextBuddy {
 			return String.format(MESSAGE_ERROR_SAVING, fileName);
 		}
 	}
-	
+
 	private void printOut(String output) {
 		System.out.print(output);
 	}
