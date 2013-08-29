@@ -61,7 +61,7 @@ import java.util.Date;
  * 5. Command letter case -- Program will accept commands in any letter case
  * size (capital, small, mixed). i.e. clear, ClEar, CLEAR
  * 
- * 6. Writing of data -- Program will only write to file when the commands add,
+ * 6. Writing of data -- Program will only save to file when the commands add,
  * delete or clear have been successfully executed.
  * 
  * @author Darry Chew
@@ -69,6 +69,10 @@ import java.util.Date;
  */
 public class TextBuddy {
 
+	// Booleans used when saving file
+	private static final boolean FILE_SAVE_SUCCESSFUL = true;
+	private static final boolean FILE_SAVE_UNSUCCESSFUL = false;
+	
 	private static final String MESSAGE_ADDED_ELEMENT = "added to %s: \"%s\"\n";
 	private static final String MESSAGE_CLEAR_LIST = "all content deleted from %s\n";
 	private static final String MESSAGE_COMMAND_INPUT = "command: ";
@@ -203,11 +207,11 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Writes the list to specified filename.
+	 * Saves the list to specified filename.
 	 * 
-	 * @return True if write was successful, else false.
+	 * @return True if file save was successful, else false.
 	 */
-	private boolean writeToFile() {
+	private boolean saveToFile() {
 		try {
 			FileWriter file = new FileWriter(fileName);
 			String output = "";
@@ -221,11 +225,10 @@ public class TextBuddy {
 			file.flush();
 			file.close();
 		} catch (IOException e) {
-			//System.out.printf(MESSAGE_ERROR_SAVING, fileName);
-			return false;
+			return FILE_SAVE_UNSUCCESSFUL;
 		}
 
-		return true;
+		return FILE_SAVE_SUCCESSFUL;
 	}
 
 	/**
@@ -247,15 +250,17 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Adds an element to the list.
+	 * Adds an element to the list and saves to file.
 	 * 
 	 * @param str 	String element to be added to the list.
 	 * @return		Feedback successful/unsuccessful message.
 	 */
 	private String addElement(String str) {
 		list.add(str);
+		
+		boolean isFileSaveSuccessful = saveToFile();
 
-		if (writeToFile()) {
+		if (isFileSaveSuccessful) {
 			return String.format(MESSAGE_ADDED_ELEMENT, fileName, str);
 		} else {
 			return String.format(MESSAGE_ERROR_SAVING, fileName);
@@ -263,7 +268,7 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Deletes an element from the list. Checks if list is empty or if element
+	 * Deletes an element from the list and saves to file. Checks if list is empty or if element
 	 * ID is out of bounds.
 	 * 
 	 * @param id	ID of element to be deleted.
@@ -283,8 +288,10 @@ public class TextBuddy {
 			int index = id - 1; // 0 based indexing list
 			String element = list.get(index);
 			list.remove(index);
+			
+			boolean isFileSaveSuccessful = saveToFile();
 
-			if (writeToFile()) {
+			if (isFileSaveSuccessful) {
 				return String.format(MESSAGE_DELETE_ELEMENT, fileName, element);
 			} else {
 				return String.format(MESSAGE_ERROR_SAVING, fileName);
@@ -298,14 +305,16 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Clears the list
+	 * Clears the list and saves to file.
 	 * 
 	 * @return	Feedback successful/unsuccessful message.
 	 */
 	private String clearList() {
 		list.clear();
+		
+		boolean isFileSaveSuccessful = saveToFile();
 
-		if (writeToFile()) {
+		if (isFileSaveSuccessful) {
 			return String.format(MESSAGE_CLEAR_LIST, fileName);
 		} else {
 			return String.format(MESSAGE_ERROR_SAVING, fileName);
